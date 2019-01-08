@@ -9,17 +9,6 @@
  * Sync theme with GitHub
  */
 
-require 'plugin-update-checker/plugin-update-checker.php';
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/chriselias/goldn-theme',
-	__FILE__,
-	'goldn'
-);
-
-$myUpdateChecker->getVcsApi()->enableReleaseAssets();
-
-//Optional: If you're using a private repository, specify the access token like this:
-$myUpdateChecker->setAuthentication('def5c5d4588c58e57520b27ecc9945f0efcaaed3');
 
 /**
  * Create options page to pull in new elementor elements
