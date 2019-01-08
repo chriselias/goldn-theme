@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php include_once('inc/rich-snippets.php'); ?>
 </head>
 
-<!-- version 0 --> 
+<!-- version 1 --> 
 
 <body <?php generate_body_schema();?> <?php body_class(); ?>>
 	<?php
