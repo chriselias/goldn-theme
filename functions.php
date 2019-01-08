@@ -8,6 +8,20 @@
  /**
  * Sync theme with GitHub
  */
+require get_stylesheet_directory() . '/plugin-update-checker/plugin-update-checker.php';
+
+
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/chriselias/goldn-theme/',
+	__FILE__,
+	'goldn-theme'
+);
+
+
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+
+//Optional: If you're using a private repository, specify the access token like this:
+$myUpdateChecker->setAuthentication('df2553b17d828becaaab15be36095e23f8b21e7ce');
 
 
 /**
