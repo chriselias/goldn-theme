@@ -157,3 +157,4 @@ function script_tag_shortcode( $atts = null, $content = null ) {
   
   $myUpdateChecker->setBranch('production');
 
+  // this is a comment to test the theme sync
