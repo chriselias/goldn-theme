@@ -148,5 +148,12 @@ function script_tag_shortcode( $atts = null, $content = null ) {
   add_filter( 'no_texturize_shortcodes', 'shortcodes_to_exempt_from_wptexturize' );
 
 
-
+  require 'plugin-update-checker/plugin-update-checker.php';
+  $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+      'https://github.com/chriselias/goldn-theme/',
+      __FILE__,
+      'GOLDN'
+  );
+  
+  $myUpdateChecker->setBranch('production');
 
