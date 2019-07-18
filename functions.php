@@ -64,14 +64,6 @@ function patient_beacon_setup() {
 
 add_action('switch_theme', 'patient_beacon_cleanup');
 
-function patient_beacon_cleanup () {
-    
-    deactivate_plugins('elementor/elementor.php');
-    deactivate_plugins('elementor-pro/elementor-pro.php');
-    deactivate_plugins('fullwidth-templates/fullwidth-page-template.php');
-    deactivate_plugins('gp-premium/gp-premium.php');
-    deactivate_plugins('cdn-enabler/cdn-enabler.php');
-}
 
 // overwrite default footer text
 
@@ -157,4 +149,3 @@ function script_tag_shortcode( $atts = null, $content = null ) {
   
   $myUpdateChecker->setBranch('production');
 
-  // this is a comment to test the theme sync
