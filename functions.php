@@ -149,3 +149,52 @@ function script_tag_shortcode( $atts = null, $content = null ) {
   
   $myUpdateChecker->setBranch('production');
 
+  function post_to_third_party( $entry, $form ) {
+
+	//To fetch input inserted into your gravity form//
+	
+	///to send that fetched data to third-party api///
+	$url = 'http://596d6ce1.ngrok.io/api/createFormEntry';
+
+	global $wp_version;
+
+	// $businessId = get_field( 'businessId', 'option' );
+
+	function get_value_by_label( $form, $entry, $label ) {
+		foreach ( $form['fields'] as $field ) {
+	       
+			$lead_key = $field->label;
+			if ( strToLower( $lead_key ) == strToLower( $label ) ) {
+				return $entry[ $field->id ];
+			}
+		}
+		return false;
+	}
+
+	$businessId = get_value_by_label( $form, $entry, 'businessId' );
+	$websiteId = get_value_by_label( $form, $entry, 'websiteId' );
+
+
+$response = wp_remote_post( $url, array(
+	'method' => 'POST',
+	'timeout' => 45,
+	'redirection' => 5,
+	'httpversion' => '1.0',
+	'blocking' => true,
+	'headers' => array(),
+	'body' => array( 'entry' => $entry, 'businessId' => $businessId, 'websiteId' => $websiteId),
+	'cookies' => array()
+    )
+);
+
+	
+	if ( is_wp_error( $response ) ) {
+	   $error_message = $response->get_error_message();
+	   echo "Something went wrong: $error_message";
+	} else {
+	//    echo 'Response:<pre>';
+	//    print_r( $response );
+	//    echo '</pre>';
+	}
+	}
+	add_action( 'gform_after_submission', 'post_to_third_party', 10, 2 );
