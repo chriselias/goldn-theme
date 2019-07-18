@@ -24,10 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	
 <?php include_once('inc/rich-snippets.php'); ?>
 </head>
-
-<!-- version 1 --> 
-
-<body <?php generate_body_schema();?> <?php body_class(); ?>>
+<!-- updated2... -->
+<body <?php body_class(); ?> <?php generate_do_microdata( 'body' ); ?>>
 	<?php
 	/**
 	 * generate_before_header hook.

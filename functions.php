@@ -5,24 +5,6 @@
  * @package Generate
  */
  
- /**
- * Sync theme with GitHub
- */
-require get_stylesheet_directory() . '/plugin-update-checker/plugin-update-checker.php';
-
-
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/chriselias/goldn-theme/',
-	__FILE__,
-	'goldn-theme'
-);
-
-
-$myUpdateChecker->getVcsApi()->enableReleaseAssets();
-
-//Optional: If you're using a private repository, specify the access token like this:
-$myUpdateChecker->setAuthentication('df2553b17d828becaaab15be36095e23f8b21e7ce');
-
 
 /**
  * Create options page to pull in new elementor elements
@@ -109,12 +91,12 @@ if ( ! function_exists( 'generate_add_footer_info' ) ) :
 
 // cleanup query params for css and scripts
 
-function mlb_remove_script_version( $src ){
-    return remove_query_arg( 'ver', $src );
-}
+// function mlb_remove_script_version( $src ){
+//     return remove_query_arg( 'ver', $src );
+// }
 
-add_filter( 'script_loader_src', 'mlb_remove_script_version' );
-add_filter( 'style_loader_src', 'mlb_remove_script_version' );
+// add_filter( 'script_loader_src', 'mlb_remove_script_version' );
+// add_filter( 'style_loader_src', 'mlb_remove_script_version' );
 
 if( function_exists('acf_add_options_page') ) {
 	
@@ -144,8 +126,26 @@ function create_acf_load_point( $paths ) {
     return $paths;
 }
 
-add_filter( 'acf/settings/save_json', 'create_acf_save_point' );
-add_filter( 'acf/settings/load_json', 'create_acf_load_point' );
+// add_filter( 'acf/settings/save_json', 'create_acf_save_point' );
+ add_filter( 'acf/settings/load_json', 'create_acf_load_point' );
+
+
+function script_tag_shortcode( $atts = null, $content = null ) {
+    $a = shortcode_atts( array(
+          'src' => null
+      ), $atts );
+      if($a['src'] !== null)
+        return '<script src=" '. $a['src'] . ' " type="text/javascript"></script>';
+      else
+        return '<script>'. $content.'</script>';
+  }
+  function shortcodes_to_exempt_from_wptexturize( $shortcodes ) {
+    $shortcodes[] = 'mlb-script';
+    return $shortcodes;
+}
+  add_shortcode( 'mlb-script', 'script_tag_shortcode' );
+  
+  add_filter( 'no_texturize_shortcodes', 'shortcodes_to_exempt_from_wptexturize' );
 
 
 
