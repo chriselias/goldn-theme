@@ -20,7 +20,6 @@ function patient_beacon_setup() {
     // activate plugins to run elementor properly
     activate_plugin('elementor/elementor.php');
     activate_plugin('elementor-pro/elementor-pro.php');
-    activate_plugin('fullwidth-templates/fullwidth-page-template.php');
     activate_plugin('gp-premium/gp-premium.php');
     activate_plugin('cdn-enabler/cdn-enabler.php');
 
@@ -154,7 +153,7 @@ function script_tag_shortcode( $atts = null, $content = null ) {
 	//To fetch input inserted into your gravity form//
 	
 	///to send that fetched data to third-party api///
-	$url = 'http://596d6ce1.ngrok.io/api/createFormEntry';
+	$url = 'https://app.mylocalbeacon.com/api/createFormEntry';
 
 	global $wp_version;
 
