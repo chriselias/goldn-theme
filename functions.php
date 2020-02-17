@@ -138,6 +138,19 @@ function script_tag_shortcode( $atts = null, $content = null ) {
   
   add_filter( 'no_texturize_shortcodes', 'shortcodes_to_exempt_from_wptexturize' );
 
+  function copyright_shortcode($atts) {
+     $a = shortcode_atts( array(
+          'name' => 'Goldn, LLC',
+          'url' => 'https://getgoldn.com'
+      ), $atts ); 
+      $year = date('Y');
+    
+      $link = "<a class='goldn-copyright' href='{$a['url']}' target='_blank'>&copy; {$year} &middot; {$a['name']}</a>";
+
+    return $link;
+  } 
+
+add_shortcode('copyright', 'copyright_shortcode');
 
   require 'plugin-update-checker/plugin-update-checker.php';
   $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
