@@ -61,7 +61,13 @@ do_action( 'generate_after_footer' );
 wp_footer();
 ?>
 
-<script data-account="REgnYgvRk6" src="https://cdn.userway.org/widget.js"></script>
+
+<?php
+
+$widget = get_field("accessibility_widget", "option");
+if ($widget === 'yes') { ?>
+	<script data-account="REgnYgvRk6" src="https://cdn.userway.org/widget.js"></script>
+<?php } ?>
 
 </body>
 </html>

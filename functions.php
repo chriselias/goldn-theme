@@ -101,6 +101,23 @@ if( function_exists('acf_add_options_page') ) {
 	
 }
 
+$theme = wp_get_theme(); // gets the current theme
+if ( 'GOLDN' == $theme->name  ) {
+  if( function_exists('acf_add_options_page') ) {
+	
+    acf_add_options_page(array(
+      'page_title' 	=> 'Goldn Theme Settings',
+      'menu_title'	=> 'Goldn Settings',
+      'menu_slug' 	=> 'goldn-theme-settings',
+      'capability'	=> 'edit_posts',
+      'redirect'		=> false
+    ));
+    
+  }
+}
+
+
+
 // function create_acf_save_point( $path ) {
 //     // update path
 //     $path = get_stylesheet_directory() . '/acf';
