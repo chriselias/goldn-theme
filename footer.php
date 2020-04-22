@@ -61,7 +61,35 @@ do_action( 'generate_after_footer' );
 wp_footer();
 ?>
 
-<script data-account="REgnYgvRk6" src="https://cdn.userway.org/widget.js"></script>
+
+<?php
+
+$widget = get_field("accessibility_widget", "option");
+if ($widget === 'yes') { ?>
+	<script data-account="REgnYgvRk6" src="https://cdn.userway.org/widget.js"></script>
+<?php } ?>
 
 </body>
 </html>
+
+
+<script type="text/javascript">
+var _userway_config = {
+/* uncomment the following line to override default position*/
+/* position: 3,*/
+/* uncomment the following line to override default size (values: small, large)*/
+/* size: 'small', */
+/* uncomment the following line to override default language (e.g., fr, de, es, he, nl, etc.)*/
+/* language: 'en',*/
+/* uncomment the following line to override color set via widget (e.g., #053f67)*/
+/* color: '#053e67',*/
+/* uncomment the following line to override type set via widget (1=person, 2=chair, 3=eye, 4=text)*/
+/* type: '1', */
+/* statement_text: 'Our Accessibility Statement', */
+/* statement_url: 'http://www.example.com/accessibility', */
+/* uncomment the following line to override support on mobile devices*/
+/* mobile: true, */
+account: 'REgnYgvRk6'
+};
+</script>
+<script type="text/javascript" src="https://cdn.userway.org/widget.js"></script>

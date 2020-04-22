@@ -101,6 +101,74 @@ if( function_exists('acf_add_options_page') ) {
 	
 }
 
+$theme = wp_get_theme(); // gets the current theme
+if ( 'GOLDN' == $theme->name  ) {
+  if( function_exists('acf_add_options_page') ) {
+	
+    acf_add_options_page(array(
+      'page_title' 	=> 'Goldn Theme Settings',
+      'menu_title'	=> 'Goldn Settings',
+      'menu_slug' 	=> 'goldn-theme-settings',
+      'capability'	=> 'edit_posts',
+      'redirect'		=> false
+    ));
+    
+  }
+}
+
+if( function_exists('acf_add_local_field_group') ):
+
+  acf_add_local_field_group(array(
+    'key' => 'group_5e9f4fc543d2b',
+    'title' => 'Goldn Theme Settings',
+    'fields' => array(
+      array(
+        'key' => 'field_5e9f5004049b2',
+        'label' => 'Accessibility Widget',
+        'name' => 'accessibility_widget',
+        'type' => 'radio',
+        'instructions' => 'Displays accessibility widget on website. Shows by default.',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array(
+          'width' => '',
+          'class' => '',
+          'id' => '',
+        ),
+        'choices' => array(
+          'yes' => 'yes',
+          'no' => 'no',
+        ),
+        'allow_null' => 0,
+        'other_choice' => 0,
+        'default_value' => 'yes',
+        'layout' => 'horizontal',
+        'return_format' => 'value',
+        'save_other_choice' => 0,
+      ),
+    ),
+    'location' => array(
+      array(
+        array(
+          'param' => 'options_page',
+          'operator' => '==',
+          'value' => 'goldn-theme-settings',
+        ),
+      ),
+    ),
+    'menu_order' => 0,
+    'position' => 'normal',
+    'style' => 'default',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'hide_on_screen' => '',
+    'active' => true,
+    'description' => '',
+  ));
+  
+  endif;
+
+
 // function create_acf_save_point( $path ) {
 //     // update path
 //     $path = get_stylesheet_directory() . '/acf';
