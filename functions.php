@@ -279,4 +279,10 @@ $response = wp_remote_post( $url, array(
 	//    echo '</pre>';
 	}
 	}
-	add_action( 'gform_after_submission', 'post_to_third_party', 10, 2 );
+  add_action( 'gform_after_submission', 'post_to_third_party', 10, 2 );
+  
+  // Disable auto-update email notifications for plugins.
+add_filter( 'auto_plugin_update_send_email', '__return_false' );
+ 
+// Disable auto-update email notifications for themes.
+add_filter( 'auto_theme_update_send_email', '__return_false' );
