@@ -1,0 +1,49 @@
+[
+    {
+        "key": "group_5e9f4fc543d2b",
+        "title": "Goldn Theme Settings",
+        "fields": [
+            {
+                "key": "field_5e9f5004049b2",
+                "label": "Accessibility Widget",
+                "name": "accessibility_widget",
+                "type": "radio",
+                "instructions": "Displays accessibility widget on website. Shows by default.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "yes": "yes",
+                    "no": "no"
+                },
+                "allow_null": 0,
+                "other_choice": 0,
+                "default_value": "yes",
+                "layout": "horizontal",
+                "return_format": "value",
+                "save_other_choice": 0
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "options_page",
+                    "operator": "==",
+                    "value": "goldn-theme-settings"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    }
+]

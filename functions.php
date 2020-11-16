@@ -20,7 +20,6 @@ function patient_beacon_setup() {
     // activate plugins to run elementor properly
     activate_plugin('elementor/elementor.php');
     activate_plugin('elementor-pro/elementor-pro.php');
-    activate_plugin('fullwidth-templates/fullwidth-page-template.php');
     activate_plugin('gp-premium/gp-premium.php');
     activate_plugin('cdn-enabler/cdn-enabler.php');
 
@@ -64,14 +63,6 @@ function patient_beacon_setup() {
 
 add_action('switch_theme', 'patient_beacon_cleanup');
 
-function patient_beacon_cleanup () {
-    
-    deactivate_plugins('elementor/elementor.php');
-    deactivate_plugins('elementor-pro/elementor-pro.php');
-    deactivate_plugins('fullwidth-templates/fullwidth-page-template.php');
-    deactivate_plugins('gp-premium/gp-premium.php');
-    deactivate_plugins('cdn-enabler/cdn-enabler.php');
-}
 
 // overwrite default footer text
 
@@ -110,6 +101,76 @@ if( function_exists('acf_add_options_page') ) {
 	
 }
 
+$theme = wp_get_theme(); // gets the current theme
+if ( 'GOLDN' == $theme->name  ) {
+  if( function_exists('acf_add_options_page') ) {
+	
+    acf_add_options_page(array(
+      'page_title' 	=> 'Goldn Theme Settings',
+      'menu_title'	=> 'Goldn Settings',
+      'menu_slug' 	=> 'goldn-theme-settings',
+      'capability'	=> 'edit_posts',
+      'redirect'		=> false
+    ));
+    
+  }
+}
+
+
+if( function_exists('acf_add_local_field_group') ):
+
+  acf_add_local_field_group(array(
+    'key' => 'group_5e9f4fc543d2b',
+    'title' => 'Goldn Theme Settings',
+    'fields' => array(
+      array(
+        'key' => 'field_5e9f5004049b2',
+        'label' => 'Accessibility Widget',
+        'name' => 'accessibility_widget',
+        'type' => 'radio',
+        'instructions' => 'Displays accessibility widget on website. Shows by default.',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => array(
+          'width' => '',
+          'class' => '',
+          'id' => '',
+        ),
+        'choices' => array(
+          'yes' => 'yes',
+          'no' => 'no',
+        ),
+        'allow_null' => 0,
+        'other_choice' => 0,
+        'default_value' => 'yes',
+        'layout' => 'horizontal',
+        'return_format' => 'value',
+        'save_other_choice' => 0,
+      ),
+    ),
+    'location' => array(
+      array(
+        array(
+          'param' => 'options_page',
+          'operator' => '==',
+          'value' => 'goldn-theme-settings',
+        ),
+      ),
+    ),
+    'menu_order' => 0,
+    'position' => 'normal',
+    'style' => 'default',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'hide_on_screen' => '',
+    'active' => true,
+    'description' => '',
+  ));
+  
+  endif;
+
+
+
 // function create_acf_save_point( $path ) {
 //     // update path
 //     $path = get_stylesheet_directory() . '/acf';
@@ -147,6 +208,19 @@ function script_tag_shortcode( $atts = null, $content = null ) {
   
   add_filter( 'no_texturize_shortcodes', 'shortcodes_to_exempt_from_wptexturize' );
 
+  function copyright_shortcode($atts) {
+     $a = shortcode_atts( array(
+          'name' => 'Goldn, LLC',
+          'url' => 'https://getgoldn.com'
+      ), $atts ); 
+      $year = date('Y');
+    
+      $link = "<a class='goldn-copyright' href='{$a['url']}' target='_blank'>&copy; {$year} &middot; {$a['name']}</a>";
+
+    return $link;
+  } 
+
+add_shortcode('copyright', 'copyright_shortcode');
 
   require 'plugin-update-checker/plugin-update-checker.php';
   $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
@@ -157,3 +231,52 @@ function script_tag_shortcode( $atts = null, $content = null ) {
   
   $myUpdateChecker->setBranch('production');
 
+  function post_to_third_party( $entry, $form ) {
+
+	//To fetch input inserted into your gravity form//
+	
+	///to send that fetched data to third-party api///
+	$url = 'https://app.mylocalbeacon.com/api/createFormEntry';
+
+	global $wp_version;
+
+	// $businessId = get_field( 'businessId', 'option' );
+
+	function get_value_by_label( $form, $entry, $label ) {
+		foreach ( $form['fields'] as $field ) {
+	       
+			$lead_key = $field->label;
+			if ( strToLower( $lead_key ) == strToLower( $label ) ) {
+				return $entry[ $field->id ];
+			}
+		}
+		return false;
+	}
+
+	$businessId = get_value_by_label( $form, $entry, 'businessId' );
+	$websiteId = get_value_by_label( $form, $entry, 'websiteId' );
+
+
+$response = wp_remote_post( $url, array(
+	'method' => 'POST',
+	'timeout' => 45,
+	'redirection' => 5,
+	'httpversion' => '1.0',
+	'blocking' => true,
+	'headers' => array(),
+	'body' => array( 'entry' => $entry, 'businessId' => $businessId, 'websiteId' => $websiteId),
+	'cookies' => array()
+    )
+);
+
+	
+	if ( is_wp_error( $response ) ) {
+	   $error_message = $response->get_error_message();
+	   echo "Something went wrong: $error_message";
+	} else {
+	//    echo 'Response:<pre>';
+	//    print_r( $response );
+	//    echo '</pre>';
+	}
+	}
+	add_action( 'gform_after_submission', 'post_to_third_party', 10, 2 );
